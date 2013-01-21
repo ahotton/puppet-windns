@@ -1,25 +1,48 @@
-This is the Puppet DNS module. It uses the Fog Ruby library to interface with
-your DNS service hosted zone.
+This is the Puppet DNS for Windows Active Directory Integrated Zones.
+It uses wmi via win32ole
 
-NOTE: Currently only Amazon Web Services (AWS) is supported.
 
 Example:
 
-    dnszone {
-        'example.net.':
-            ensure => present,
-            id     => 'my_api_key_id',
-            secret => 'my_secret_api_key';
-    }
+```
 
-	dnsrecord {
-	 	'myrecord.example.net.':
-	 		ensure => present,
-	 		value  => '1.2.3.4",
-	 		type   => 'A',
-	 		zone   => 'example.net.',
-	 		ttl    => '61',
-	 		id     => 'my_api_key_id',
-			secret => 'my_secret_api_key',
-			require => Dnszone['example.net.'];
-	}
+dnszone {
+    'fubar.com':
+        ensure => present,
+        server => cc-ad01
+}
+
+dnsrecord {
+    'wksa-mss0022.fubar.com.':
+        ensure => present,
+        value  => '172.21.5.179',
+        type   => 'A',
+        zone   => 'fubar.com.',
+        ttl    => 12001,
+        server => 'cc-ad01',
+        require => Dnszone['fubar.com'];
+}
+
+dnsrecord {
+    '1.5.5.5.in-addr.arpa.':
+        ensure => absent,
+        value  => 'wksa-mss0022.fubar.com.',
+        type   => 'PTR',
+        zone   => '5.5.5.in-addr.arpa.',
+        ttl    => 12008,
+        server => 'cc-ad01',
+        require => Dnszone['fubar.com'];
+}
+
+dnsrecord {
+    'booya.fubar.com.':
+        ensure => present,
+        value  => 'wksa-mss0022.fubar.com.',
+        type   => 'CNAME',
+        zone   => 'fubar.com.',
+        ttl    => 12005,
+        server => 'cc-ad01',
+        require => Dnszone['fubar.com'];
+}
+
+```
