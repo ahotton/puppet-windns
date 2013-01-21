@@ -1,11 +1,3 @@
-This is the Puppet DNS for Windows Active Directory Integrated Zones.
-It uses wmi via win32ole
-
-
-Example:
-
-```
-
 dnszone {
     'fubar.com':
         ensure => present,
@@ -44,5 +36,3 @@ dnsrecord {
         server => 'cc-ad01',
         require => Dnszone['fubar.com'];
 }
-
-```
