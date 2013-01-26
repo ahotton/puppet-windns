@@ -1,4 +1,5 @@
 class Puppet::Provider::Ad < Puppet::Provider
+confine :operatingsystem => :windows
 
     def wmi_connect
       objWMIService=WIN32OLE.connect("winmgmts:{impersonationLevel=impersonate,authenticationLevel=pktPrivacy}!\\\\#{@resource[:server]}\\root\\microsoftdns")
