@@ -1,6 +1,3 @@
-require 'puppet/provider'
-require 'win32ole'
-
 class Puppet::Provider::Ad < Puppet::Provider
 
     def wmi_connect
