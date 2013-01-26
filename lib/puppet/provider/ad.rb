@@ -2,6 +2,17 @@ class Puppet::Provider::Ad < Puppet::Provider
 confine :operatingsystem => :windows
 
     def wmi_connect
+      if Puppet.features.microsoft_windows?
+        begin
+          require 'win32ole'
+        rescue LoadError => exc
+          msg = "Could not load the required win32ole gem [#{exc.message}]"
+          Puppet.err msg
+          error = Puppet::Error.new(msg)
+          error.set_backtrace exc.backtrace
+          raise error
+        end
+      end
       objWMIService=WIN32OLE.connect("winmgmts:{impersonationLevel=impersonate,authenticationLevel=pktPrivacy}!\\\\#{@resource[:server]}\\root\\microsoftdns")
     end
 
