@@ -1,3 +1,8 @@
+puppet-windns
+=====================
+
+** Member of the rismoney suite of Windows Puppet Providers **
+
 This is the Puppet DNS for Windows Active Directory Integrated Zones.
 It uses wmi via win32ole
 
